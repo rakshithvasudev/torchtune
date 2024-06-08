@@ -24,6 +24,7 @@ tokenizer:
 # Dataset
 dataset:
   _component_: torchtune.datasets.alpaca_dataset
+  train_on_input: True
 seed: null
 shuffle: True
 
@@ -98,7 +99,8 @@ memory_efficient_fsdp_wrap: True
 fsdp_cpu_offload: True
 
 # Reduced precision
-dtype: bf16
+#dtype: bf16
+dtype: fp32
 
 # Logging
 metric_logger:

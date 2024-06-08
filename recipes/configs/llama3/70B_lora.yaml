@@ -20,11 +20,13 @@ model:
 
 tokenizer:
   _component_: torchtune.models.llama3.llama3_tokenizer
-  path: /tmp/Meta-Llama-3-70B-Instruct/original/tokenizer.model
+    #path: /work/llama3_model_hf/Meta-Llama-3-70B-Instruct/original/tokenizer.model
+  path: /work/llama3_model_hf/Meta-Llama-3-70B/original/tokenizer.model
 
+  #checkpoint_dir:  /work/llama3_model_hf/Meta-Llama-3-70B-Instruct
 checkpointer:
   _component_: torchtune.utils.FullModelHFCheckpointer
-  checkpoint_dir:  /tmp/Meta-Llama-3-70B-Instruct
+  checkpoint_dir:  /work/llama3_model_hf/Meta-Llama-3-70B
   checkpoint_files: [
     model-00001-of-00030.safetensors,
     model-00002-of-00030.safetensors,
@@ -58,13 +60,18 @@ checkpointer:
     model-00030-of-00030.safetensors,
   ]
   recipe_checkpoint: null
-  output_dir: /tmp/Meta-Llama-3-70B-Instruct
+  output_dir: /work/output_model/Meta-Llama-3-70B
+    #output_dir: /work/output_model/Meta-Llama-3-70B-Instruct-openorca
+    #output_dir: /tmp/Meta-Llama-3-70B-Instruct
   model_type: LLAMA3
 resume_from_checkpoint: False
 
 # Dataset and Sampler
 dataset:
-  _component_: torchtune.datasets.alpaca_dataset
+  #_component_: torchtune.datasets.alpaca_dataset
+  _component_: torchtune.datasets.dolly_dataset
+  #_component_: torchtune.datasets.openorca_dataset
+  train_on_input: True
 seed: null
 shuffle: True
 batch_size: 2
@@ -87,14 +94,18 @@ max_steps_per_epoch: null
 gradient_accumulation_steps: 1
 
 # Logging
-output_dir: /tmp/lora_finetune_output
+output_dir: /work/logging_outputs/lora_finetune_output
 metric_logger:
-  _component_: torchtune.utils.metric_logging.DiskLogger
+  #_component_: torchtune.utils.metric_logging.DiskLogger
+  _component_: torchtune.utils.metric_logging.TensorBoardLogger
   log_dir: ${output_dir}
 log_every_n_steps: 1
-log_peak_memory_stats: False
+log_peak_memory_stats: True
+log_system_stats: True
+
 
 # Environment
 device: cuda
 dtype: bf16
+#dtype: fp32
 enable_activation_checkpointing: True

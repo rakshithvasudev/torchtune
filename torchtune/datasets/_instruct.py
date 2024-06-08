@@ -92,7 +92,8 @@ class InstructDataset(Dataset):
         key_output = (
             self._column_map["output"]
             if self._column_map and "output" in self._column_map
-            else "output"
+            #else "output"
+            else "response"
         )
         messages = [
             Message(role="user", content=prompt, masked=(not self.train_on_input)),

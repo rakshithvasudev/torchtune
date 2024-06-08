@@ -86,6 +86,60 @@ class AlpacaInstructTemplate(InstructTemplate):
             )
         return prompt
 
+class OpenOrcaInstructTemplate(InstructTemplate):
+    """
+    Prompt template for Alpaca-style datasets. Template prompt changes slightly depending
+    on if there's an instruction + input or just an instruction.
+    """
+
+    template = {
+        "prompt_input": (
+            "Below is an instruction that describes a task, paired with an input that provides further context. "
+            "Write a response that appropriately completes the request.\n\n"
+            "### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n### Response:\n"
+        ),
+        "prompt_no_input": (
+            "Below is an instruction that describes a task. "
+            "Write a response that appropriately completes the request.\n\n"
+            "### Instruction:\n{instruction}\n\n### Response:\n"
+        ),
+    }
+
+    @classmethod
+    def format(
+        cls, sample: Mapping[str, Any], column_map: Optional[Dict[str, str]] = None
+    ) -> str:
+        """
+        Generate prompt from instruction and input.
+
+        Args:
+            sample (Mapping[str, Any]): a single data sample with instruction
+            column_map (Optional[Dict[str, str]]): a mapping from the expected
+                placeholder names in the template to the column names in the sample.
+                If None, assume these are identical.
+
+        Returns:
+            The formatted prompt
+        """
+        column_map = column_map or {
+            "id": "id",
+            "input": "question",
+            "instruction" : "system_prompt",
+            "output" : "response",
+
+        }
+        key_input = column_map.get("input", "input")
+        key_instruction = column_map.get("instruction", "instruction")
+
+        if key_input in sample and sample[key_input]:
+            prompt = cls.template["prompt_input"].format(
+                instruction=sample[key_instruction], input=sample[key_input]
+            )
+        else:
+            prompt = cls.template["prompt_no_input"].format(
+                instruction=sample[key_instruction]
+            )
+        return prompt
 
 class GrammarErrorCorrectionTemplate(InstructTemplate):
     """

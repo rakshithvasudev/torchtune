@@ -171,6 +171,22 @@ _ALL_RECIPES = [
         supports_distributed=True,
     ),
     Recipe(
+        name="lora_finetune_distributed_metrics",
+        file_path="lora_finetune_distributed_metrics.py",
+        configs=[
+            Config(name="llama2/7B_lora", file_path="llama2/7B_lora.yaml"),
+            Config(name="llama2/13B_lora", file_path="llama2/13B_lora.yaml"),
+            Config(name="llama2/70B_lora", file_path="llama2/70B_lora.yaml"),
+            Config(name="llama3/70B_lora", file_path="llama3/70B_lora.yaml"),
+            Config(name="llama3/8B_lora", file_path="llama3/8B_lora.yaml"),
+            Config(name="mistral/7B_lora", file_path="mistral/7B_lora.yaml"),
+            Config(name="gemma/2B_lora", file_path="gemma/2B_lora.yaml"),
+            Config(name="gemma/7B_lora", file_path="gemma/7B_lora.yaml"),
+            Config(name="phi3/mini_lora", file_path="phi3/mini_lora.yaml"),
+        ],
+        supports_distributed=True,
+    ),
+    Recipe(
         name="lora_finetune_fsdp2",
         file_path="dev/lora_finetune_fsdp2.py",
         configs=[

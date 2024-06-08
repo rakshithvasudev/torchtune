@@ -17,6 +17,7 @@ from torchtune.data._converters import (
 )
 from torchtune.data._instruct_templates import (
     AlpacaInstructTemplate,
+    OpenOrcaInstructTemplate,
     GrammarErrorCorrectionTemplate,
     InstructTemplate,
     StackExchangedPairedTemplate,
@@ -27,6 +28,7 @@ from torchtune.data._utils import truncate, validate_messages
 
 __all__ = [
     "AlpacaInstructTemplate",
+    "OpenOrcaInstructTemplate",
     "ChatFormat",
     "CROSS_ENTROPY_IGNORE_IDX",
     "GrammarErrorCorrectionTemplate",
